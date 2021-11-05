@@ -1,12 +1,13 @@
 import React from 'react';
-import { BrowserRouter, Route, Router } from "react-router-dom";
+import {Route, Routes } from "react-router-dom";
 import Dashboard from '../pages/Dashboard';
 import Repository from '../pages/Repository';
 
-const Routes: React.FC = () => (
-    <BrowserRouter>
-        <Route path="/" component={Dashboard} />
-    </BrowserRouter>
+const Routess: React.FC = () => (
+    <Routes>
+        <Route path="/" element={<Dashboard />} />
+        <Route path="/repository" element={<Repository />} />
+    </Routes>
 );
 
-export default Routes;
+export default Routess;
