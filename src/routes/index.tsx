@@ -6,7 +6,7 @@ import Repository from '../pages/Repository';
 const Routess: React.FC = () => (
     <Routes>
         <Route path="/" element={<Dashboard />} />
-        <Route path="/repository/:repository+" element={<Repository />} />
+        <Route path="/repositories/:profile/:repository" element={<Repository />} />
     </Routes>
 );
 
