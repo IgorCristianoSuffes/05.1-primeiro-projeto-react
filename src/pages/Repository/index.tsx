@@ -25,6 +25,7 @@ interface Repository {
 interface Issue {
     id: number;
     title: string;
+    html_url: string;
     user: {
         login: string;
     }
@@ -40,7 +41,15 @@ const Repository: React.FC = () => {
 
     useEffect(() => {
 
-        async function loadDate():  Promise<void> {
+        api.get(`repos/${repositoryParms}`).then((response) => {
+            setRepository(response.data);
+        });
+
+        api.get(`repos/${repositoryParms}/issues`).then((response) => {
+            setIssues(response.data);
+        });
+
+        /*async function loadDate():  Promise<void> {
             const [repository, issues] = await Promise.all([
                 api.get(`repos/${repositoryParms}`),
                 api.get(`repos/${repositoryParms}/issues`)
@@ -54,7 +63,7 @@ const Repository: React.FC = () => {
             
         }
 
-        loadDate();
+        loadDate();*/
 
     }, [repositoryParms]);
     return (
@@ -67,7 +76,7 @@ const Repository: React.FC = () => {
                     </Link>
                 </Header>
 
-                { repository && (
+                { repository ? (
                     <RepositoryInfo>
                         <header>
                             <img
@@ -108,18 +117,23 @@ const Repository: React.FC = () => {
                             </li>
                         </ul>
                     </RepositoryInfo>
-                ) }
+                ) : (
+                    <p>Carregando...</p>
+                )}
 
                 <Issues>
-                    <Link
-                        to={`asdasdasd`}>
-                        <div>
-                            <strong>asdasdasd</strong>
-                            <p>asdasdasdaaaaaaaaaaaa</p>
-                        </div>
-    
-                        <FiChevronRight size={20} />
-                    </Link>
+                    {issues.map(issue => (
+                        <a
+                            key={issue.id}
+                            href={issue.html_url}>
+                            <div>
+                                <strong>{issue.title}</strong>
+                                <p>{issue.user.login}</p>
+                            </div>
+        
+                            <FiChevronRight size={20} />
+                        </a>
+                    ))}
                 </Issues>
             </>
         );
